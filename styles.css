@@ -6,7 +6,128 @@
   margin: 0;
 } */
 
-body{
-  font-family: Sans-Serif;
-  background: #ccc;
+/* Global styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  color: #333;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: #4B0082; /* purple */
+}
+
+a:hover {
+  color: #800080;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background-color: #4B0082; /* purple */
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header img {
+  height: 60px;
+  display: block;
+  margin: auto;
+  border-radius: 20px;
+}
+
+.header nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header nav a {
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.header nav a:hover {
+  color: #FFD700; /* golden hover */
+}
+
+/* Responsive Navbar */
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* Main Content */
+content {
+  display: block;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+h1 {
+  color: #4B0082;
+}
+
+h3 {
+  margin-top: 25px;
+  color: #800080;
+}
+
+/* Ordered / unordered lists */
+ol, ul {
+  margin: 10px 0 20px 30px;
+}
+
+ol li, ul li {
+  margin: 5px 0;
+}
+
+/* Footer */
+footer {
+  background-color: #4B0082;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin-top: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    flex-wrap: wrap;
+  }
+
+  .header nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: #4B0082;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .header nav.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .header img {
+    margin: 0 auto;
+  }
 }
