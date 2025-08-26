@@ -1,0 +1,7 @@
+/* Reset Padding, Margin and set box-sizing*/
+
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
