@@ -21,9 +21,13 @@ a {
 }
 
 a:hover {
-  color: #800080;
+  color: #2e012e;
 }
 
+
+article{
+  display: none;
+}
 /* Header */
 .header {
   display: flex;
