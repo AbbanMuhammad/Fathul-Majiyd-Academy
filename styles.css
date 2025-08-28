@@ -19,9 +19,17 @@ a {
   text-decoration: none;
   color: #4B0082; /* purple */
 }
-
+.btn{
+  padding: 10px;
+  background: #4B0082;
+  border-radius: 10px;
+  
+}
+.form {
+  color: #fff;s
+}
 a:hover {
-  color: #800080;
+  color: #ffe603;
 }
 
 /* Header */
