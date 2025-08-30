@@ -29,9 +29,9 @@ a {
   color: #fff;s
 }
 a:hover {
-  color: #ffe603;
+=======
+  color: #2e012e;
 }
-
 /* Header */
 .header {
   display: flex;
