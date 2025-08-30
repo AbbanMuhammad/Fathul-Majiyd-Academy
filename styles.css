@@ -23,11 +23,6 @@ a {
 a:hover {
   color: #2e012e;
 }
-
-
-article{
-  display: none;
-}
 /* Header */
 .header {
   display: flex;
