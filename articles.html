@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="articles.css">
+  <title>School Articles</title>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      <img src="./assets/logo.png" alt="School Logo"> <!-- Replace logo.png with your logo file -->
+      <span>Fathul Majiyd Academy</span>
+    </div>
+    <ul id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#">About Us</a></li>
+      <li><a href="admission.html">Admission</a></li>
+      <li><a href="academic.html">Academic</a></li>
+      <li><a href="#">Events</a></li>
+      <li><a href="articles.html">Articles</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </nav>
+
+  <!-- Articles Section -->
+  <div class="container">
+    <div class="card">
+      <img src="./assets/image4.png" alt="Example Article Image">
+      <h2>Sample Article Title</h2>
+      <p>This is a sample article text. You can add images, videos, or audios below.</p>
+      <video controls>
+        <source src="example.mp4" type="video/mp4">
+        Your browser does not support video.
+      </video>
+      <audio controls>
+        <source src="example.mp3" type="audio/mp3">
+        Your browser does not support audio.
+      </audio>
+    </div>
+  </div>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+  </script>
+</body>
+</html>
