@@ -30,10 +30,10 @@ a {
   
 }
 .form {
-  color: #fff;s
+  color: #fff;
 }
 a:hover {
-=======
+
   color: #2e012e;
 }
 /* Header */
@@ -133,7 +133,7 @@ footer {
   margin-top: 30px;
 }
 
-/* Responsive Design */
+Responsive Design
 @media (max-width: 768px) {
   .header {
     flex-wrap: wrap;
