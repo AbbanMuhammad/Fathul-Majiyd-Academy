@@ -1,216 +1,194 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Simple Dictionary</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-                background-color: #301934;
-            }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>School's Dictionary</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #301934;
+    }
+    .dictionary-card {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(80, 0, 100, 0.08);
+      padding: 32px 24px;
+    }
+    .dictionary-title {
+      font-weight: 700;
+      color: #7e097b;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .phonetic {
+      font-style: italic;
+      color: #666;
+    }
+    .part-of-speech {
+      font-weight: bold;
+      color: #007bff;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+    .definition-item {
+      margin-left: 20px;
+      margin-bottom: 5px;
+    }
+    .example {
+      font-style: italic;
+      color: #555;
+      margin-left: 20px;
+      margin-top: 2px;
+    }
+    .synonyms, .antonyms {
+      font-size: 0.95em;
+      color: #777;
+      margin-top: 5px;
+      margin-left: 20px;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+      margin-top: 16px;
+    }
+    @media (max-width: 576px) {
+      .dictionary-card {
+        padding: 16px 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #7e097b;">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <img src="./assets/logo.png" alt="School Logo" style="height:38px;" class="me-2 align-middle">
+        Fathul Majiyd Academy
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="academic.html">Academic</a></li>
+          <li class="nav-item"><a class="nav-link" href="admission.html">Admission</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="articles.html">Articles</a></li>
+          <li class="nav-item"><a class="nav-link active" href="dictionary.html">Dictionary</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-            .container h1 {
-                font-weight: 600;
-                color: purple;
-                text-align: center;
-            }
-            .container {
-                max-width: 800px;
-                margin: auto;
-                background: white;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(225, 225, 225, 0.5);
-            }
-            input[type="text"] {
-                width: calc(100% - 100px);
-                padding: 10px;
-                margin-right: 10px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-            }
-            button {
-                padding: 10px 15px;
-                background-color: purple;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            button:hover {
-                background-color: #0056b3;
-            }
-            #results {
-                margin-top: 20px;
-                border-top: 1px solid #eee;
-                padding-top: 20px;
-            }
-            .word-title {
-                font-size: 1.8em;
-                color: #333;
-                margin-bottom: 10px;
-            }
-            .phonetic {
-                font-style: italic;
-                color: #666;
-                margin-bottom: 15px;
-            }
-            .meaning-section {
-                margin-bottom: 20px;
-            }
-            .part-of-speech {
-                font-weight: bold;
-                color: #007bff;
-                margin-top: 10px;
-                margin-bottom: 5px;
-            }
-            .definition-item {
-                margin-left: 20px;
-                margin-bottom: 5px;
-            }
-            .example {
-                font-style: italic;
-                color: #555;
-                margin-left: 20px;
-                margin-top: 2px;
-            }
-            .synonyms,
-            .antonyms {
-                font-size: 0.9em;
-                color: #777;
-                margin-top: 5px;
-                margin-left: 20px;
-            }
-            .error {
-                color: red;
-                font-weight: bold;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>School's Dictionary</h1>
-            <p>
-                Enter a word to find its definition, phonetics, usages and more.
-            </p>
-            <div>
-                <input type="text" id="wordInput" placeholder="Enter a word" />
-                <button onclick="searchWord()">Search</button>
-            </div>
-            <div id="results">
-                <!-- Dictionary results will be displayed here -->
-                <p>Start by searching for a word! in this dictionary</p>
-            </div>
-        </div>
+  <div class="dictionary-card">
+    <h1 class="dictionary-title">School's Dictionary</h1>
+    <p class="text-center mb-4">Enter a word to find its definition, phonetics, usages and more.</p>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="wordInput" placeholder="Enter a word" />
+      <button class="btn btn-primary" style="background:#7e097b;" onclick="searchWord()">Search</button>
+    </div>
+    <div id="results">
+      <p class="text-muted text-center">Start by searching for a word in this dictionary.</p>
+    </div>
+  </div>
 
-        <script>
-            async function searchWord() {
-                const wordInput = document
-                    .getElementById("wordInput")
-                    .value.trim();
-                const resultsDiv = document.getElementById("results");
-                resultsDiv.innerHTML = "Loading...";
+  <footer class="bg-dark text-white text-center py-4 mt-5">
+    <div class="container">
+      <p class="mb-0">&copy; Fathul Majiyd Academy</p>
+    </div>
+  </footer>
 
-                if (!wordInput) {
-                    resultsDiv.innerHTML =
-                        '<p class="error">Please enter a word to search.</p>';
-                    return;
-                }
+  <script>
+    async function searchWord() {
+      const wordInput = document.getElementById("wordInput").value.trim();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = '<div class="text-center"><span class="spinner-border text-primary"></span> Loading...</div>';
 
-                try {
-                    // DictionaryAPI URL
-                    const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${wordInput}`;
-                    const response = await fetch(apiUrl);
+      if (!wordInput) {
+        resultsDiv.innerHTML = '<p class="error">Please enter a word to search.</p>';
+        return;
+      }
 
-                    if (!response.ok) {
-                        if (response.status === 404) {
-                            resultsDiv.innerHTML = `<p class="error">No definitions found for "${wordInput}". Please check your spelling.</p>`;
-                        } else {
-                            resultsDiv.innerHTML = `<p class="error">An error occurred: ${response.status}</p>`;
-                        }
-                        return;
-                    }
+      try {
+        const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${wordInput}`;
+        const response = await fetch(apiUrl);
 
-                    const data = await response.json();
-                    displayResults(data);
-                } catch (error) {
-                    resultsDiv.innerHTML = `<p class="error">Could not connect to the dictionary service. Please try again later.</p>`;
-                    console.error("Fetch error:", error);
-                }
-            }
+        if (!response.ok) {
+          if (response.status === 404) {
+            resultsDiv.innerHTML = `<p class="error">No definitions found for "${wordInput}". Please check your spelling.</p>`;
+          } else {
+            resultsDiv.innerHTML = `<p class="error">An error occurred: ${response.status}</p>`;
+          }
+          return;
+        }
 
-            function displayResults(data) {
-                const resultsDiv = document.getElementById("results");
-                resultsDiv.innerHTML = ""; // Clear previous results
+        const data = await response.json();
+        displayResults(data);
+      } catch (error) {
+        resultsDiv.innerHTML = `<p class="error">Could not connect to the dictionary service. Please try again later.</p>`;
+        console.error("Fetch error:", error);
+      }
+    }
 
-                if (!data || data.length === 0) {
-                    resultsDiv.innerHTML =
-                        '<p class="error">No definitions found.</p>';
-                    return;
-                }
+    function displayResults(data) {
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = ""; // Clear previous results
 
-                // Assuming the first entry is the most relevant
-                const entry = data[0];
+      if (!data || data.length === 0) {
+        resultsDiv.innerHTML = '<p class="error">No definitions found.</p>';
+        return;
+      }
 
-                let html = `<div class="word-title">${entry.word}</div>`;
+      const entry = data[0];
+      let html = `<div class="word-title h3">${entry.word}</div>`;
 
-                // Phonetics
-                if (entry.phonetics && entry.phonetics.length > 0) {
-                    const textPhonetic = entry.phonetics.find(
-                        p => p.text
-                    )?.text;
-                    const audioPhonetic = entry.phonetics.find(
-                        p => p.audio
-                    )?.audio;
+      // Phonetics
+      if (entry.phonetics && entry.phonetics.length > 0) {
+        const textPhonetic = entry.phonetics.find(p => p.text)?.text;
+        const audioPhonetic = entry.phonetics.find(p => p.audio)?.audio;
 
-                    if (textPhonetic) {
-                        html += `<div class="phonetic">${textPhonetic}</div>`;
-                    }
-                    if (audioPhonetic) {
-                        html += `<audio controls src="${audioPhonetic}"></audio>`;
-                    }
-                }
+        if (textPhonetic) {
+          html += `<div class="phonetic mb-2">${textPhonetic}</div>`;
+        }
+        if (audioPhonetic) {
+          html += `<audio controls src="${audioPhonetic}" class="mb-2"></audio>`;
+        }
+      }
 
-                // Meanings
-                if (entry.meanings && entry.meanings.length > 0) {
-                    entry.meanings.forEach(meaning => {
-                        html += `<div class="meaning-section">`;
-                        html += `<div class="part-of-speech">${meaning.partOfSpeech}</div>`;
+      // Meanings
+      if (entry.meanings && entry.meanings.length > 0) {
+        entry.meanings.forEach(meaning => {
+          html += `<div class="meaning-section mb-3">`;
+          html += `<div class="part-of-speech">${meaning.partOfSpeech}</div>`;
 
-                        if (
-                            meaning.definitions &&
-                            meaning.definitions.length > 0
-                        ) {
-                            meaning.definitions.forEach((def, index) => {
-                                html += `<p class="definition-item">${
-                                    index + 1
-                                }. ${def.definition}</p>`;
-                                if (def.example) {
-                                    html += `<p class="example">"<em>${def.example}</em>"</p>`;
-                                }
-                            });
-                        }
+          if (meaning.definitions && meaning.definitions.length > 0) {
+            meaning.definitions.forEach((def, index) => {
+              html += `<div class="definition-item">${index + 1}. ${def.definition}</div>`;
+              if (def.example) {
+                html += `<div class="example">"<em>${def.example}</em>"</div>`;
+              }
+            });
+          }
+          if (meaning.synonyms && meaning.synonyms.length > 0) {
+            html += `<div class="synonyms"><strong>Synonyms:</strong> ${meaning.synonyms.join(", ")}</div>`;
+          }
+          if (meaning.antonyms && meaning.antonyms.length > 0) {
+            html += `<div class="antonyms"><strong>Antonyms:</strong> ${meaning.antonyms.join(", ")}</div>`;
+          }
+          html += `</div>`;
+        });
+      } else {
+        html += "<p>No meanings found for this word.</p>";
+      }
 
-                        if (meaning.synonyms && meaning.synonyms.length > 0) {
-                            html += `<p class="synonyms"><strong>Synonyms:</strong> ${meaning.synonyms.join(
-                                ", "
-                            )}</p>`;
-                        }
-                        if (meaning.antonyms && meaning.antonyms.length > 0) {
-                            html += `<p class="antonyms"><strong>Antonyms:</strong> ${meaning.antonyms.join(
-                                ", "
-                            )}</p>`;
-                        }
-                        html += `</div>`; // Close meaning-section
-                    });
-                } else {
-                    html += "<p>No meanings found for this word.</p>";
-                }
-
-                resultsDiv.innerHTML = html;
-            }
-        </script>
-    </body>
+      resultsDiv.innerHTML = html;
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
