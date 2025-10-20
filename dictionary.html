@@ -90,7 +90,7 @@
     <p class="text-center mb-4">Enter a word to find its definition, phonetics, usages and more.</p>
     <div class="input-group mb-3">
       <input type="text" class="form-control" id="wordInput" placeholder="Enter a word" />
-      <button class="btn btn-primary" style="background:#7e097b;" onclick="searchWord()">Search</button>
+      <button class="btn btn-primary" style="background:#7e097b;" id="searchBtn">Search</button>
     </div>
     <div id="results">
       <p class="text-muted text-center">Start by searching for a word in this dictionary.</p>
@@ -104,30 +104,71 @@
   </footer>
 
   <script>
+    // Utility: escape HTML to avoid inserting raw user/API text into the DOM
+    function escapeHtml(str) {
+      if (!str && str !== 0) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/`/g, '&#96;');
+    }
+
+    // Attach events
+    document.getElementById('searchBtn').addEventListener('click', searchWord);
+    document.getElementById('wordInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') searchWord();
+    });
+
     async function searchWord() {
-      const wordInput = document.getElementById("wordInput").value.trim();
+      const inputEl = document.getElementById("wordInput");
+      const wordInput = inputEl.value.trim();
       const resultsDiv = document.getElementById("results");
-      resultsDiv.innerHTML = '<div class="text-center"><span class="spinner-border text-primary"></span> Loading...</div>';
 
       if (!wordInput) {
         resultsDiv.innerHTML = '<p class="error">Please enter a word to search.</p>';
         return;
       }
 
+      // Show loading
+      resultsDiv.innerHTML = '<div class="text-center"><span class="spinner-border text-primary" role="status" aria-hidden="true"></span> Loading...</div>';
+
+      // Encode the input so spaces and special characters won't break the URL
+      const safeWord = encodeURIComponent(wordInput.toLowerCase());
+      const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${safeWord}`;
+
       try {
-        const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${wordInput}`;
+        console.log('Fetching dictionary API for:', wordInput, 'URL:', apiUrl);
         const response = await fetch(apiUrl);
 
+        console.log('Response status:', response.status);
+
         if (!response.ok) {
+          // Attempt to parse returned error JSON for a better message
+          let errText = `An error occurred: ${response.status}`;
+          try {
+            const errJson = await response.json();
+            if (errJson && errJson.title) {
+              errText = `${errJson.title}${errJson.message ? ': ' + errJson.message : ''}`;
+            } else if (errJson && errJson.message) {
+              errText = errJson.message;
+            }
+          } catch (parseErr) {
+            console.warn('Could not parse error JSON', parseErr);
+          }
+
           if (response.status === 404) {
-            resultsDiv.innerHTML = `<p class="error">No definitions found for "${wordInput}". Please check your spelling.</p>`;
+            resultsDiv.innerHTML = `<p class="error">No definitions found for "${escapeHtml(wordInput)}". Please check your spelling.</p>`;
           } else {
-            resultsDiv.innerHTML = `<p class="error">An error occurred: ${response.status}</p>`;
+            resultsDiv.innerHTML = `<p class="error">${escapeHtml(errText)}</p>`;
           }
           return;
         }
 
         const data = await response.json();
+        console.log('Dictionary API data:', data);
         displayResults(data);
       } catch (error) {
         resultsDiv.innerHTML = `<p class="error">Could not connect to the dictionary service. Please try again later.</p>`;
@@ -145,40 +186,50 @@
       }
 
       const entry = data[0];
-      let html = `<div class="word-title h3">${entry.word}</div>`;
+      let html = `<div class="word-title h3">${escapeHtml(entry.word || '')}</div>`;
 
       // Phonetics
       if (entry.phonetics && entry.phonetics.length > 0) {
-        const textPhonetic = entry.phonetics.find(p => p.text)?.text;
-        const audioPhonetic = entry.phonetics.find(p => p.audio)?.audio;
+        const textPhonetic = entry.phonetics.find(p => p.text && p.text.trim())?.text;
+        const audioPhonetic = entry.phonetics.find(p => p.audio && p.audio.trim())?.audio;
 
         if (textPhonetic) {
-          html += `<div class="phonetic mb-2">${textPhonetic}</div>`;
+          html += `<div class="phonetic mb-2">${escapeHtml(textPhonetic)}</div>`;
         }
         if (audioPhonetic) {
-          html += `<audio controls src="${audioPhonetic}" class="mb-2"></audio>`;
+          // Some audio URLs may be relative or empty; ensure it's a string
+          html += `<div class="mb-2"><audio controls src="${escapeHtml(audioPhonetic)}"></audio></div>`;
         }
       }
 
-      // Meanings
+      // Meanings and definitions
       if (entry.meanings && entry.meanings.length > 0) {
         entry.meanings.forEach(meaning => {
           html += `<div class="meaning-section mb-3">`;
-          html += `<div class="part-of-speech">${meaning.partOfSpeech}</div>`;
+          html += `<div class="part-of-speech">${escapeHtml(meaning.partOfSpeech || '')}</div>`;
 
           if (meaning.definitions && meaning.definitions.length > 0) {
             meaning.definitions.forEach((def, index) => {
-              html += `<div class="definition-item">${index + 1}. ${def.definition}</div>`;
+              html += `<div class="definition-item">${index + 1}. ${escapeHtml(def.definition || '')}</div>`;
               if (def.example) {
-                html += `<div class="example">"<em>${def.example}</em>"</div>`;
+                html += `<div class="example">"${escapeHtml(def.example)}"</div>`;
+              }
+              // Some API entries include synonyms/antonyms at definition-level
+              if (def.synonyms && def.synonyms.length > 0) {
+                html += `<div class="synonyms"><strong>Synonyms:</strong> ${def.synonyms.map(s => escapeHtml(s)).join(", ")}</div>`;
+              }
+              if (def.antonyms && def.antonyms.length > 0) {
+                html += `<div class="antonyms"><strong>Antonyms:</strong> ${def.antonyms.map(a => escapeHtml(a)).join(", ")}</div>`;
               }
             });
           }
+
+          // Meaning-level synonyms/antonyms
           if (meaning.synonyms && meaning.synonyms.length > 0) {
-            html += `<div class="synonyms"><strong>Synonyms:</strong> ${meaning.synonyms.join(", ")}</div>`;
+            html += `<div class="synonyms"><strong>Synonyms:</strong> ${meaning.synonyms.map(s => escapeHtml(s)).join(", ")}</div>`;
           }
           if (meaning.antonyms && meaning.antonyms.length > 0) {
-            html += `<div class="antonyms"><strong>Antonyms:</strong> ${meaning.antonyms.join(", ")}</div>`;
+            html += `<div class="antonyms"><strong>Antonyms:</strong> ${meaning.antonyms.map(a => escapeHtml(a)).join(", ")}</div>`;
           }
           html += `</div>`;
         });
